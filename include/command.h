@@ -25,7 +25,7 @@ struct SequenceCommand : Command {
 };
 
 /**
- * Represents + | - | > | < | . | , 
+ * Represents + | - | > | < | . | , | <variable_name>
  */
 struct BaseCommand : Command {
     void execute(Memory & m);
@@ -38,6 +38,22 @@ struct LoopCommand : Command {
     void execute(Memory & m) override;
     std::shared_ptr<SequenceCommand> commands;
 };
+
+struct VariableLoadCommand : Command {
+    VariableLoadCommand(std::string variable_name, std::shared_ptr<SequenceCommand> commands) 
+        : variable_name(variable_name), commands(std::move(commands)) {}
+    void execute(Memory & m) override;
+    std::shared_ptr<SequenceCommand> commands;
+    std::string variable_name;
+};
+
+struct VariableReadCommand : Command {
+    VariableReadCommand(std::string variable_name) 
+        : variable_name(std::move(variable_name)) {}
+    void execute(Memory & m) override;
+    std::string variable_name;
+};
+
 
 SequenceCommand lex(std::string& s, size_t start, size_t end);
 

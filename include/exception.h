@@ -13,4 +13,10 @@ struct parse_expect_token_error : public std::runtime_error {
         : std::runtime_error("Expect token: '" + std::string(1, c) + "'") {
     }
 };
+
+struct runtime_undefined_variable : public std::runtime_error {
+    runtime_undefined_variable(std::string s)
+        : std::runtime_error("Undefined variable '" + s + "'") {
+    }
+};
 #endif

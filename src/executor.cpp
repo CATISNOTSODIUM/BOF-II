@@ -1,5 +1,6 @@
 
 #include "command.h"
+#include "exception.h"
 
 #define YELLOW "\033[33m"
 #define RESET "\033[0m"
@@ -38,4 +39,19 @@ void SequenceCommand::execute(Memory & mem) {
     for (auto c: commands) {
         c->execute(mem);
     }
+}
+
+void VariableReadCommand::execute(Memory & mem) {
+    if (!mem.find_variable(variable_name)) {
+        throw runtime_undefined_variable(variable_name);
+    }
+    mem.replace(mem.get_variable(variable_name));
+}
+
+// Call by value semantics
+void VariableLoadCommand::execute(Memory & mem) {
+    // execute command first
+    commands->execute(mem);
+    // store the value in pc as a variable
+    mem.store_variable(variable_name, mem.get_value_from_pc());
 }

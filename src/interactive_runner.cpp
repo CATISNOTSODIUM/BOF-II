@@ -7,7 +7,7 @@ void InteractiveRunner::run() {
     std::cout << "Interactive session" << std::endl;
     std::string input;
     while (true) {
-        std::cin >> input;
+        std::getline(std::cin, input); // accept whitespace
         Memory mem{};
         try {
             lex_root(input).execute(mem);
