@@ -1,5 +1,7 @@
 #include "runner.h"
 #include "common.h"
+#include "memory.h"
+#include "command.h"
 
 FileRunner::FileRunner(const char* file_name) {
     input_file = std::ifstream(file_name);
@@ -9,12 +11,15 @@ FileRunner::FileRunner(const char* file_name) {
 }
 
 void FileRunner::run() {
-    std::cout << "Reading file ..." << std::endl;
-    char ch;
-    while (input_file.get(ch)) {
-        std::cout << ch;
+    std::stringstream buffer;
+    buffer << input_file.rdbuf();
+    std::string input = buffer.str();
+    Memory mem{};
+    try {
+        lex_root(input).execute(mem);
+    } catch (const std::exception& e) {
+        std::cerr << "Caught exception: " << e.what() << std::endl;
     }
-    std::cout << "\nEnd file" << std::endl;
 }
 
 FileRunner::~FileRunner(){

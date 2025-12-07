@@ -1,3 +1,9 @@
+### TODO
+- Support loop operation (make sure to properly handle nested loop)
+- Support variable declaration
+- Support macro
+- (Debugger) Set up ncurses
+
 ### Quickstart
 Simply type `make` to build the executable `bof`.
 

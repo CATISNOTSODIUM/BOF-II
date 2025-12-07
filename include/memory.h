@@ -2,7 +2,7 @@
 #define BOF_MEMORY
 #include "common.h"
 
-static constexpr int SLOT_SIZE = 1 << 10;
+static constexpr int SLOT_SIZE = 64;
 using MemoryGrid = std::vector<std::array<int, SLOT_SIZE>>;
 
 class Memory {
