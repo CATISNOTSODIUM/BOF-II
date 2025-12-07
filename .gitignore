@@ -1,0 +1,6 @@
+obj/
+
+*.d
+.vscode/
+
+bof
