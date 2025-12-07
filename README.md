@@ -1,8 +1,6 @@
-### TODO
-- Support loop operation (make sure to properly handle nested loop)
-- Support variable declaration
-- Support macro
-- (Debugger) Set up ncurses
+# 🧠 BOF - Brainf_ck with macros (C++)✨
+While brainf_ck is notoriously known for its minimalistic and impractical, BOF makes programming language in brainf_ck slightly more forgiving with macros and variables.
+
 
 ### Quickstart
 Simply type `make` to build the executable `bof`.
@@ -24,3 +22,8 @@ Simply type `make` to build the executable `bof`.
 
 <basic_expression>      ::= + | - | < | > | . | , | <variable>
 ```
+
+### Todo
+- Support variable declaration
+- Support macro
+- (Debugger) Set up ncurses
