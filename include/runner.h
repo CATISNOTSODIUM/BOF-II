@@ -41,6 +41,7 @@ public:
     void run();
 private:
     std::ifstream input_file;
+    std::string input_file_name;
 };
 
 #endif

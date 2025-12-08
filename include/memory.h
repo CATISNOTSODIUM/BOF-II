@@ -17,6 +17,7 @@ public:
     void inc_pc();
     void dec_pc();
     int get_value_from_pc();
+    int get_value(int loc);
     // Increment / Decrement value
     void inc();
     void dec();

@@ -37,6 +37,13 @@ int Memory::get_value_from_pc() {
     return memory[pc_slot][pc_offset];
 }
 
+int Memory::get_value(int loc) {
+    if (loc < 0 || loc >= get_max()) return 0;
+    int slot = loc / SLOT_SIZE;
+    int offset = loc % SLOT_SIZE;
+    return memory[slot][offset];
+}
+
 void Memory::inc() {
     int pc_slot = pc / SLOT_SIZE;
     int pc_offset = pc % SLOT_SIZE;

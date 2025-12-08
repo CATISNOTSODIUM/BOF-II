@@ -1,7 +1,7 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -Iinclude
-LDFLAGS = 
+CXXFLAGS = -std=c++20 -Wall -Wextra -Iinclude
+LDFLAGS = -lncurses
 
 # Project structure
 TARGET = bof
