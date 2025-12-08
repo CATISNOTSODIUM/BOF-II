@@ -29,4 +29,18 @@ private:
     std::ifstream input_file;
 };
 
+class DebugRunner : Runner {
+public:
+    DebugRunner(const char* file_name);
+    ~DebugRunner();
+    DebugRunner(const DebugRunner&) = delete;
+    DebugRunner& operator=(const DebugRunner&) = delete;
+    DebugRunner(DebugRunner&&) = delete;
+    DebugRunner& operator=(DebugRunner&&) = delete;
+
+    void run();
+private:
+    std::ifstream input_file;
+};
+
 #endif

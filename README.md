@@ -24,6 +24,4 @@ Simply type `make` to build the executable `bof`.
 ```
 
 ### Todo
-- Support variable declaration
-- Support macro
 - (Debugger) Set up ncurses
