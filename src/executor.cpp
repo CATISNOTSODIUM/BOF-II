@@ -1,6 +1,7 @@
 
 #include "command.h"
 #include "exception.h"
+#include "memory.h"
 
 #define YELLOW "\033[33m"
 #define RESET "\033[0m"
@@ -45,13 +46,24 @@ void VariableReadCommand::execute(Memory & mem) {
     if (!mem.find_variable(variable_name)) {
         throw runtime_undefined_variable(variable_name);
     }
-    mem.replace(mem.get_variable(variable_name));
+    auto cmd = mem.get_variable(variable_name);
+    if (cmd.type == MACRO) {
+        cmd.command->execute(mem);
+    } else {
+        mem.replace(cmd.value);
+    }
 }
 
 // Call by value semantics
-void VariableLoadCommand::execute(Memory & mem) {
+void VariableStoreCommand::execute(Memory & mem) {
     // execute command first
     commands->execute(mem);
     // store the value in pc as a variable
     mem.store_variable(variable_name, mem.get_value_from_pc());
+}
+
+// Call by name semantics
+void MacroStoreCommand::execute(Memory & mem) {
+    // store the value in pc as a variable
+    mem.store_macro(variable_name, commands);
 }

@@ -1,7 +1,9 @@
 #ifndef BOF_COMMAND
 #define BOF_COMMAND
 #include "common.h"
-#include "memory.h"
+
+
+class Memory;
 
 enum Token {
     PLUS, MINUS, LEFT, RIGHT, INPUT, OUTPUT
@@ -9,7 +11,7 @@ enum Token {
 
 struct Command {
     virtual ~Command() {}
-    virtual void execute(Memory & m) {
+    virtual void execute(Memory&) {
         std::cout << "execute virtual" << std::endl;
     }
 };
@@ -39,9 +41,17 @@ struct LoopCommand : Command {
     std::shared_ptr<SequenceCommand> commands;
 };
 
-struct VariableLoadCommand : Command {
-    VariableLoadCommand(std::string variable_name, std::shared_ptr<SequenceCommand> commands) 
-        : variable_name(variable_name), commands(std::move(commands)) {}
+struct VariableStoreCommand : Command {
+    VariableStoreCommand(std::string variable_name, std::shared_ptr<SequenceCommand> commands) 
+        : commands(commands), variable_name(variable_name) {}
+    void execute(Memory & m) override;
+    std::shared_ptr<SequenceCommand> commands;
+    std::string variable_name;
+};
+
+struct MacroStoreCommand : Command {
+    MacroStoreCommand(std::string variable_name, std::shared_ptr<SequenceCommand> commands) 
+        : commands(commands), variable_name(variable_name) {}
     void execute(Memory & m) override;
     std::shared_ptr<SequenceCommand> commands;
     std::string variable_name;

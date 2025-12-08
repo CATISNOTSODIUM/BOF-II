@@ -58,7 +58,7 @@ SequenceCommand lex(std::string& s, size_t start, size_t end) {
             std::string variable_name = s.substr(loc, mark - loc + 1);
             loc = mark + 1;
             loc = loc == end ? end : get_next(s, loc, end);
-            if (loc == end || s[loc] != '=') {
+            if (loc == end || (s[loc] != '=' && s[loc] != '$')) {
                 if (current.tokens.size() > 0) {
                     commands.emplace_back(std::make_shared<BaseCommand>(current));
                 }
@@ -72,8 +72,25 @@ SequenceCommand lex(std::string& s, size_t start, size_t end) {
                 if (current.tokens.size() > 0) {
                     commands.emplace_back(std::make_shared<BaseCommand>(current));
                 }
-                commands.emplace_back(std::make_shared<VariableLoadCommand>
-                        (VariableLoadCommand(variable_name, std::make_shared<SequenceCommand>(child_commands))));
+                commands.emplace_back(std::make_shared<VariableStoreCommand>
+                        (VariableStoreCommand(variable_name, std::make_shared<SequenceCommand>(child_commands))));
+                current = BaseCommand{};
+
+                loc = mark + 1; continue;
+            } else if (loc != end && s[loc] == '$') {
+                loc++;
+                if (s[loc] != '=') {
+                    throw parse_expect_token_error('=');
+                }
+                // macro
+                // scan for ';'
+                size_t mark = scan_close_symbol(s, '=', ';', loc, end);
+                SequenceCommand child_commands = lex(s, loc + 1, mark);
+                if (current.tokens.size() > 0) {
+                    commands.emplace_back(std::make_shared<BaseCommand>(current));
+                }
+                commands.emplace_back(std::make_shared<MacroStoreCommand>
+                        (MacroStoreCommand(variable_name, std::make_shared<SequenceCommand>(child_commands))));
                 current = BaseCommand{};
 
                 loc = mark + 1; continue;
